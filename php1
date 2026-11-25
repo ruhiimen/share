@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>Form  </title>
+<style>
+error{
+color:red;
+font-size:small;
+}
+</style> 
+</head>
+<body>
+<center>
+<form method="POST" >
+<h1>REGISTRATION FORM</h1>
+
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" placeholder="Name"><br>
+
+<label for="phone">Phone</label>
+<input type="tel" id="phone" name="phone"  ><br>
+
+<label for="email">Email</label>
+<input type="email" id="email" name="email" ><br>
+
+<label for="address">Address</label>
+<textarea id="address" name="address"></textarea><br>
+
+<label for="qlf">Qualification</label>
+<select id ="qlf" name="qlf">
+
+<option value="">Select a Qualification </option>
+<option value="B">Bachelor's Degree </option>
+<option value="M">Master's Degree</option>
+</select><br>
+
+<label for="pass">Password:</label>
+<input type="password" id="pass" name="pass" ><br>
+
+<label for="cpass">Confirm Password:</label>
+<input type="password" id="cpass" name="cpass" ><br>
+<button type="submit">Register</button>
+</form>
+        
+        
+        
+<?php
+if ($_SERVER ['REQUEST_METHOD']=='POST')
+{
+$_name=$_POST['name']??'';
+$_phone=$_POST['phone']??'';
+$_email=$_POST['email']??'';
+$_qlf=$_POST['qlf']??'';
+$_pass= $_POST['pass']??'';
+$_cpass=$_POST['cpass']??'';
+$_adress=$_POST['address']??'';
+
+$errors=[];
+
+if (empty($_name))
+{
+$errors['name']='Name is required";
+}
+
+
+if (empty($_phone))
+{
+$errors['phone']='phone is required";
+}
+else if(!preg_match("/^[0-9]{10}$/",$_phone))
+{
+$errors['phone']='phone no must be valid 10 digit number";
+}
+
+
+if (empty($email)) || !filter_var($_email ,FILTER_VALIDATE_EMAIL))
+{
+$errors['email']='Valid email is required";
+}
+
+if (empty($_qlf))
+{
+$errors['qlf']='Qualification is required";
+}
+
+
+if (empty($_address))
+{
+$errors['address']='address is required";
+}
+
+if (empty($_pass)) || empty($_cpass)
+{
+$errors['pass']='Password is required";
+}
+else if($pass!= $cpass)
+{
+$errors['cpass']='Password do not match";
+}
+else if(strlen($pass)<8)
+{
+$errors['pass']='Password must be ateleast 8 charcters";
+}
+
+if(!empty($errors))
+{
+foreach($errors as $field =>$message)
+{
+echo "<p class='error'>$message</p>";
+}
+}
+else
+{
+echo "<script>alert("Registration succcessful!");</script>";
+}}
+?>
+</center>
+</body>
+</html>
